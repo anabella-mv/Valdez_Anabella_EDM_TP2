@@ -1,5 +1,7 @@
 package ar.edu.unju.fi.tp2.controller;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,21 +15,36 @@ import ar.edu.unju.fi.tp2.service.ProductoService;
 
 @Controller
 public class ProductoController {
+	private static final Log BELLA = LogFactory.getLog(ProductoController.class);
 	
 	
 	@Autowired
 	ProductoService iProductoService;
 	
-	@GetMapping("/producto")
+	@GetMapping({"/producto"})
 	public String cargarProducto(Model model) {
 		model.addAttribute("unProducto", iProductoService.obtenerProductoNuevo());
 		return("producto");
 	}
-	@PostMapping("/nuevoProducto")
+	
+	@PostMapping("/producto")
 	public String guardarNuevoProducto(@ModelAttribute("unProducto") Producto nuevoProducto, Model model) {
 		iProductoService.guardarProducto(nuevoProducto);
-		return "producto";
+		System.out.println(iProductoService.obtenerTodosProductos().get(0).getMarca());
+		model.addAttribute("productos", iProductoService.obtenerTodosProductos());
+		BELLA.error("Solo de prueba");
+		return "resultado";
 	}
 
+	@GetMapping("/ultimo")
+	public String cargarUltimoProducto(Model model) {
+		model.addAttribute("ultimoProducto", iProductoService.obtenerUltimoProducto());
+		return("mostrar-ultimo");
+	}
+	
+	@GetMapping("/volver")
+	public String cargarNuevoProducto (Model model) {
+		return ("redirect:/producto");
+	}
 	
 }

@@ -2,7 +2,8 @@ package ar.edu.unju.fi.tp2.service;
 
 import java.util.ArrayList;
 
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +11,21 @@ import ar.edu.unju.fi.tp2.model.Producto;
 
 @Service
 public class ProductoServiceImp implements ProductoService{
+	private static final Log ANABELLA = LogFactory.getLog(ProductoServiceImp.class);
 	
 	@Autowired
 	Producto unProducto;
 	
-	//estoy creando una estructura que guardará todos los productos
 	ArrayList<Producto> listaDeProductos = new ArrayList<Producto>();
 	
 	@Override
 	public void guardarProducto(Producto unProducto) {
 		// TODO Auto-generated method stub
+		System.out.println(unProducto.getNombre());
+		listaDeProductos.add(unProducto);
+		System.out.println(listaDeProductos.size());
+		ANABELLA.info("METHOD: Ingresando a guardar producto");
+		ANABELLA.info("RESULT: Guardado" + listaDeProductos.get(listaDeProductos.size()-1).getNombre());
 		
 	}
 
@@ -44,13 +50,20 @@ public class ProductoServiceImp implements ProductoService{
 	@Override
 	public ArrayList<Producto> obtenerTodosProductos() {
 		// TODO Auto-generated method stub
-		return null;
+		return listaDeProductos;
 	}
 
 	@Override
 	public Producto obtenerProductoNuevo() {
 		// TODO Auto-generated method stub
 		return unProducto;
+	}
+
+	@Override
+	public Producto obtenerUltimoProducto() {
+		// TODO Auto-generated method stub
+		int i = listaDeProductos.size() - 1;
+		return listaDeProductos.get(i);
 	}
 
 }
