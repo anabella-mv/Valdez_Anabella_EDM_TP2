@@ -47,4 +47,12 @@ public class ProductoController {
 		return ("redirect:/producto");
 	}
 	
+	@GetMapping("/todos")
+	public String mostrarTodosProductos(Model model) {
+		model.addAttribute("todosProductos", iProductoService.obtenerTodosProductos());
+		System.out.println(iProductoService.obtenerTodosProductos().get(0).getMarca());
+		model.addAttribute("productos", iProductoService.obtenerTodosProductos());
+		return("mostrar-todos");
+	}	
+	
 }
